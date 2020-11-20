@@ -1,0 +1,124 @@
+<style>
+    .main{
+        margin-left: 40%;
+        margin-top: 5%;
+    }
+
+    .sidebar{
+        /* Position */
+        top:0px;
+        left:0px;
+        width: 160px;
+        margin-right: 90%;
+        z-index:1; 
+        position: fixed;
+
+        /* Colour */
+        background-color: blanchedalmond;
+        border-color: black;
+        border-width: 3px;
+        height: 100%;
+        
+    }
+
+    .sidebarMargin{
+        /* Placement */
+        margin-left:61%;
+
+        /* Orientation */
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+
+        /* Size */
+        font-size: 90px;
+    }
+</style>
+
+<link rel="stylesheet" href="stylesheets/w3school-slider.css">
+
+<div class="main"> 
+    <h1> </h1>
+    <div id="rooms"> </div>
+
+    <button onclick="saveSlider()">Save</button> <br><br><br><br><br>
+
+    <form id="newRoom">
+        <input type="text" name="title" id="roomText">
+        <input type="submit" value="Submit" id="submitButton" \>
+    </form>
+
+</div>
+
+<!-- Add new room -->
+<script>
+    document.getElementById('newRoom').onsubmit = function() { 
+        text = document.getElementById('roomText').value
+        console.log(text);
+        place = new Office(text)
+        manager.add(place)
+        refreshDisplay()
+        return false;
+    };
+</script>
+
+<div class="sidebar">
+    <div class="sidebarMargin">
+        <h1 style="font-size: 45px;">&nbsp&nbsp&nbsp&nbsp&nbspSimple </h1>
+        <h1 style="line-height:0%"> &nbspManagement </h1>
+    </div>
+    
+</div>
+
+<!-- Imports -->
+<script src="src/Office.js"></script>
+<script src="src/Save.js"></script>
+<script src="src/OfficeManager.js"></script>
+
+<!-- Example Script -->
+<script>
+    manager = new OfficeManager()
+    test1 = new Office("One")
+    test2 = new Office("Two")
+    test3 = new Office("Three")
+    test4 = new Office("Four")
+
+    test1.available = true
+
+    manager.add(test1)
+    manager.add(test2)
+    manager.add(test3)
+    manager.add(test4)
+
+</script>
+
+<!-- Make the element for the name and the checkbox -->
+<script>
+    function refreshDisplay() {
+    len = manager.rooms.length;
+    var x ="", i, y="";
+    for (i=0; i<len; i++) {
+
+        console.log(manager.rooms[i].available)
+
+        // Title
+        y = "<h1>" + String(i + 1) + ". " + manager.rooms[i].name + "</h1>";
+        // Checkbox
+        x = x + `<label class="switch"> <input type="checkbox" id=${manager.rooms[i].name}`
+
+        if (manager.rooms[i].available == true) {
+            x = x + ` checked`
+        } 
+
+        x = x + `><span class="slider"></span></label>`
+        
+        x = x + `<label for="${manager.rooms[i].name}" class="indented-checkbox-text"> ${y} </label>`
+        x = x + `<br>`
+        
+    }
+
+
+    document.getElementById("rooms").innerHTML = x;
+    }
+
+    refreshDisplay()
+</script>
